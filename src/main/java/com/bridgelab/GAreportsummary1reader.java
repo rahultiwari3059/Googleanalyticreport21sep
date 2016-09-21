@@ -20,7 +20,7 @@ public class GAreportsummary1reader {
 			// converting object into JSONObject
 			JSONObject jsonObject = (JSONObject) obj;
 
-			// converting into jsonobject
+			// converting into JSONObject
 			JSONArray GAReportInfoarray = (JSONArray) jsonObject.get("GAReportInfo");
 			// reading GAReportInfoarray
 			for (int i = 0; i < GAReportInfoarray.size(); i++) {
@@ -37,23 +37,23 @@ public class GAreportsummary1reader {
 
 				// reading the metric array
 				for (int k = 0; k < metricarray.size(); k++) {
-					// adding into metricarraylist
+					// adding into metric ArrayList
 					metricarraylist.add((String) metricarray.get(k));
 				}
 
-				// making dimension jsonarray
+				// making dimension JSONArray
 				JSONArray dimensionsarray = (JSONArray) GAReportInfoobject.get("dimension");
 
-				// reading the dimention array
+				// reading the dimension array
 				for (int j = 0; j < dimensionsarray.size(); j++) {
 					dimentionarraylist.add((String) dimensionsarray.get(j));
 				}
 
-				// making dimensionfilter into JSONArray
+				// making DimensionFilter into JSONArray
 				JSONArray dimensionfilterarray = (JSONArray) GAReportInfoobject.get("dimensionfilter");
-				// reading the dimensionfilterarray
+				// reading the DimensionFilter JSONArray
 				for (int l = 0; l < dimensionfilterarray.size(); l++) {
-					// adding into arraylist
+					// adding into DimensionFilter ArrayList
 					dimensionfilterarraylist.add((String) dimensionfilterarray.get(l));
 				}
 

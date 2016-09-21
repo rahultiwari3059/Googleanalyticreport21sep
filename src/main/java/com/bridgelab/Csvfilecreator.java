@@ -15,10 +15,13 @@ import com.google.api.services.analyticsreporting.v4.model.GetReportsResponse;
 public class Csvfilecreator {
 	static int i = 0, j = 0, k = 0;
 
-	public void responsetaker(String response){
+	public void responsetaker(String response) {
 		int temp1 = 0, temp2 = 0, temp3 = 0;
+		// making object of Csvfilecreator
 		Csvfilecreator js = new Csvfilecreator();
+		// creating values ArrayList
 		ArrayList<String> values = new ArrayList<String>();
+		// creating values1 ArrayList
 		ArrayList<String> values1 = new ArrayList<String>();
 		JSONParser parser = new JSONParser();
 		try {
@@ -28,41 +31,42 @@ public class Csvfilecreator {
 			JSONObject jsonObject = (JSONObject) obj;
 			// covering report array into JSONArray
 			JSONArray reportarray = (JSONArray) jsonObject.get("reports");
-			// System.out.println(reportarray);
-			// System.out.println(reportarray.size());
+			// reading report JSONArray 
 			for (int j = 0; j < reportarray.size(); j++) {
+				// getting first object and converting into JSONObject
 				JSONObject obj3 = (JSONObject) reportarray.get(j);
-				// System.out.println(obj3);
+				// making JSONObject of data
 				JSONObject dataobject = (JSONObject) obj3.get("data");
-				// System.out.println(dataobject);
+				// making JSONArray of rows
 				JSONArray rowarray = (JSONArray) dataobject.get("rows");
-				// System.out.println(rowarray);
-				// System.out.println(rowarray.size());
+				// storing row JSONArray size into temp1
 				temp1 = rowarray.size();
-				System.out.println(temp1);
+				// reading rows JSONArray
 				for (int i = 0; i < rowarray.size(); i++) {
-
+					// getting first object and converting into JSONObject
 					JSONObject rowobject = (JSONObject) rowarray.get(i);
-					// System.out.println(rowobject);
+					// making metrics JSONArray
 					JSONArray metricarray = (JSONArray) rowobject.get("metrics");
-					// System.out.println(metricarray);
-					// System.out.println(metricarray.size());
+					// storing metric JSONArray size into temp2
 					temp2 = metricarray.size();
+					// iterating metric JSONArray
 					for (int k = 0; k < metricarray.size(); k++) {
+						//// getting first object and converting into JSONObject
 						JSONObject metricobject = (JSONObject) metricarray.get(k);
-						// System.out.println(metricobject);
+						// making values JSONArray
 						JSONArray valuesarray = (JSONArray) metricobject.get("values");
-						// System.out.println(valuesarray);
+						// converting JSONArray into JSONString
 						String valuestring = JSONArray.toJSONString(valuesarray);
-						// System.out.println(valuestring);
+						// making subString
 						valuestring = valuestring.substring(valuestring.indexOf("[") + 2, valuestring.indexOf("]") - 1);
-						// System.out.println(valuestring);
+						// adding into value1 ArrayList
 						values1.add(valuestring);
 					}
 					JSONArray dimensionsarray = (JSONArray) rowobject.get("dimensions");
-					// System.out.println("dimension="+dimensionsarray.size());
+
 					temp3 = dimensionsarray.size();
 					for (int l = 0; l < dimensionsarray.size(); l++) {
+						// adding into value ArrayList
 						values.add((String) dimensionsarray.get(l));
 					}
 
@@ -72,12 +76,13 @@ public class Csvfilecreator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		// calling createCsv method by passing argument
 		js.createCsv(values, values1, temp1, temp2, temp3);
 	}
 
 	public void createCsv(ArrayList<String> list, ArrayList<String> list1, int temp1, int temp2, int temp3) {
-int k=0;
-int p=0;
+		int k = 0;
+		int p = 0;
 		try {
 			// initializing the boolean value
 			boolean b = false;
@@ -102,20 +107,18 @@ int p=0;
 				bw.append("^");
 				bw.newLine();
 			}
-			for (i = 0; i < 1000; i++) {
-				
-				for (j = 0; j < temp3; j++)
-				{
+			for (i = 0; i < temp1; i++) {
+
+				for (j = 0; j < temp3; j++) {
 					k++;
 					System.out.println(list.get(k));
 					bw.append(list.get(k));
 					bw.append("^");
 				}
-				for (int m = 0; m < temp2; m++)
-				{
-				p++;
-				bw.append(list1.get(p));
-				System.out.println(list1.get(p));
+				for (int m = 0; m < temp2; m++) {
+					p++;
+					bw.append(list1.get(p));
+					System.out.println(list1.get(p));
 				}
 				bw.newLine();
 			}
